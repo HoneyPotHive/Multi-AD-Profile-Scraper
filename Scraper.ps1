@@ -21,18 +21,18 @@ $adchecker1 = Get-ADGroupMember -Identity $group1 -Recursive | Select -ExpandPro
 
 # Core script 
 # oh yeah its all coming togeather. - Kronk
-echo ""
-echo "O365 Policy Excluded Checker"
-echo '--------------------------'
+Write-Host ""
+Write-Host "O365 Policy Excluded Checker"
+Write-Host '--------------------------'
 if ($adchecker1 -contains $username) {
     Write-Host "$Username exists in the O365 Policy Exclude from Blocked Countries group" -ForegroundColor green
 } else {
       Write-Host "$Username not exists in the O365 Policy Exclude from Blocked Countries group" -ForegroundColor red
 }
 
-echo " "
-echo "Phone"
-echo '--------------------------'
+Write-Host " "
+Write-Host "Phone"
+Write-Host '--------------------------'
 # Takes first 4 digits of the number and compares it to library of area codes in the states
 # scrapped this site for area code data https://www.allareacodes.com/area_code_listings_by_state.htm
 
@@ -44,7 +44,7 @@ Jersey City, NJ" -ForegroundColor green
 }
 
 if ([string]$phone -like "+1202") {
-    Write-Host Write-Host "$phone is from 
+    Write-Host "$phone is from 
 District of Columbia" -ForegroundColor green
  Pause   
  break
