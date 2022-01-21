@@ -25,9 +25,9 @@ Write-Host ""
 Write-Host "O365 Policy Excluded Checker"
 Write-Host '--------------------------'
 if ($adchecker1 -contains $username) {
-    Write-Host "$Username exists in the O365 Policy Exclude from Blocked Countries group" -ForegroundColor green
+    Write-Host "$Username is a memeber" -ForegroundColor green
 } else {
-      Write-Host "$Username not exists in the O365 Policy Exclude from Blocked Countries group" -ForegroundColor red
+      Write-Host "$Username is not a memeber" -ForegroundColor red
 }
 
 Write-Host " "
