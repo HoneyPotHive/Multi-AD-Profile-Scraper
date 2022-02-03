@@ -1,5 +1,5 @@
 
-# Daniel Bak and HoneyPotHive area code Scrapepr
+# Daniel B. and HoneyPotHive area code Scrapepr
 # Version 2.1.0
 # Works only for US numbers for now pulling AD accounts 
 ##########################################################################
