@@ -6,8 +6,9 @@
 ############# Num Scraper ###############################
 ######################################
 
+$server = "domain here"
 $Username = Read-Host -Prompt 'Input User Name' # enter in username here
-$aduser = Get-ADUser $Username -Properties * | select DistinguishedName,Description,Division,Title,PasswordLastSet,TelephoneNumber # scrapes profile
+$aduser = Get-ADUser -Server $server -Identity $Username -Properties * | Select DistinguishedName,Description,Division,Title,PasswordLastSet,TelephoneNumber # scrapes profile
 $aduser
 $Grabphone = $aduser | Select-Object -Property TelephoneNumber # takes phone number and reformats output
 $Formatnum = Out-String -InputObject $Grabphone.TelephoneNumber
@@ -15,8 +16,8 @@ $phone = $Formatnum.Substring(0,5)
 
 
 # O365 Exclusion policy Checker
-$group1 = "AD Group name here"
-$adchecker1 = Get-ADGroupMember -Identity $group1 -Recursive | Select -ExpandProperty SamAccountName
+$group1 = "Group name here"
+$adchecker1 = Get-ADGroupMember -Server $server -Identity $group1 -Recursive | Select -ExpandProperty SamAccountName
 
 
 # Core script 
