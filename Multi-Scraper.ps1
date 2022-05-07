@@ -1,7 +1,7 @@
 
 
 # Daniel Bak and Andre P area code Scrapepr
-# Version 2.1.0
+# Version 3.0.1
 # Works only for US numbers for now pulling AD accounts 
 ##########################################################################
 ############# Num Scraper ###############################
