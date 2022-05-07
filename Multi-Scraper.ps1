@@ -119,8 +119,8 @@ $phone = $Formatnum.Substring(0,5)
 
 
 # O365 Exclusion policy Checker
-$group1 = "O365 Policy Exclude from Blocked Countries"
-$group2 = "O365 Policy Exclude from Blocked Countries - Mexico & Canada"
+$group1 = "group1 example"
+$group2 = "group2 example"
 $adchecker1 = Get-ADGroupMember -Server $server -Identity $group1 -Recursive | Select -ExpandProperty SamAccountName
 $adchecker2 = Get-ADGroupMember -Server $server -Identity $group2 -Recursive | Select -ExpandProperty SamAccountName
 $global:useremail = "$username@cmgfi.com"
