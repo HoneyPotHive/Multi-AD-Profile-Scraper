@@ -75,6 +75,8 @@ function Multipass
         } Else {
             Write-Host "$useremail is not in Medium Alert" -ForegroundColor red
         }
+        
+        #High Alerts
         If ($high -contains $useremail) {
             Write-Host "$useremail is in High Alert" -ForegroundColor green
             switch (Read-Host 'Would you like to see if user is in Risky Users? (Y/N)')
