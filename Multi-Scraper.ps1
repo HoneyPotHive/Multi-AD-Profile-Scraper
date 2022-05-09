@@ -4,7 +4,7 @@
 # Version 3.0.1
 # Works only for US numbers for now pulling AD accounts 
 ##########################################################################
-############# Num Scraper ###############################
+############# Multi Scraper ###############################
 ######################################
 
 
@@ -29,59 +29,70 @@ function Multipass
     $apiPermissionScopes = @("IdentityRiskyUser.Read.All", "IdentityRiskyUser.ReadWrite.All")
     Connect-Graph -Scopes $apiPermissionScopes
     Select-MgProfile -name beta
-    pause
     ######################################
     Try 
     {
         Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-        Import-module .\IdentityProtectionTools.psd1
     }
     Finally
     {
-        $low = Get-AzureADIPRiskyUser -RiskLevel low | Select -ExpandProperty UserPrincipalName
-        $medium = Get-AzureADIPRiskyUser -RiskLevel medium | Select -ExpandProperty UserPrincipalName
-        $high = Get-AzureADIPRiskyUser -RiskLevel high | Select -ExpandProperty UserPrincipalName
+        $low = Get-MgRiskyUser -Filter "RiskLevel eq 'low'" | select -ExpandProperty UserPrincipalName
+        $medium = Get-MgRiskyUser -Filter "RiskLevel eq 'medium'" | select -ExpandProperty UserPrincipalName
+        $high = Get-MgRiskyUser -Filter "RiskLevel eq 'high'" | select -ExpandProperty UserPrincipalName
+
+        # Low Alerts
         If ($low -contains $useremail) {
             Write-Host "$useremail is in Low Alert" -ForegroundColor green
-            Release
+            switch (Read-Host 'Would you like to see if user is in Risky Users? (Y/N)')
+            {
+                Y { 
+                    $mediumid = Get-MgRiskyUser -Filter "RiskLevel eq 'low'" | Where-Object {$_.UserPrincipalName -eq "$useremail"} | Select -ExpandProperty Id
+                    Invoke-MgDismissRiskyUser -UserIds $mediumid
+                    Write-Host "$username has been released from the ghost trap" -fore green
+
+                  }
+                N { core }
+                default { Write-Host 'Only Y/N valid' -fore red }
+            }
         } Else {
             Write-Host "$useremail is not in Low Alert" -ForegroundColor red
         }
+
+        #Medium Alerts
         If ($medium -contains $useremail) {
             Write-Host "$useremail is in Medium Alert" -ForegroundColor green
-            Release
+            switch (Read-Host 'Would you like to see if user is in Risky Users? (Y/N)')
+            {
+                Y { 
+                    $mediumid = Get-MgRiskyUser -Filter "RiskLevel eq 'medium'" | Where-Object {$_.UserPrincipalName -eq "$useremail"} | Select -ExpandProperty Id
+                    Invoke-MgDismissRiskyUser -UserIds $mediumid
+                    Write-Host "$username has been released from the ghost trap" -fore green
+
+                  }
+                N { core }
+                default { Write-Host 'Only Y/N valid' -fore red }
+            }
         } Else {
             Write-Host "$useremail is not in Medium Alert" -ForegroundColor red
         }
         If ($high -contains $useremail) {
             Write-Host "$useremail is in High Alert" -ForegroundColor green
-            Release
+            switch (Read-Host 'Would you like to see if user is in Risky Users? (Y/N)')
+            {
+                Y { 
+                    $mediumid = Get-MgRiskyUser -Filter "RiskLevel eq 'high'" | Where-Object {$_.UserPrincipalName -eq "$useremail"} | Select -ExpandProperty Id
+                    Invoke-MgDismissRiskyUser -UserIds $mediumid
+                    Write-Host "$username has been released from the ghost trap" -fore green
+
+                  }
+                N { core }
+                default { Write-Host 'Only Y/N valid' -fore red }
+            }
         } Else {
             Write-Host "$useremail is not in High Alert" -ForegroundColor red
         }
-                
     }
     core
-}
-function Release {
-    while(-1){
-        switch (Read-Host 'Would you like to release user from Risky Users? (Y/N)'){
-            Y { 
-                $lowid = Get-AzureADIPRiskyUser -RiskLevel low | Where-Object {$_.UserPrincipalName -eq "$useremail"} | Select -ExpandProperty Id
-                $mediumid = Get-AzureADIPRiskyUser -RiskLevel medium | Where-Object {$_.UserPrincipalName -eq "$useremail"} | Select -ExpandProperty Id
-                $highid = Get-AzureADIPRiskyUser -RiskLevel high | Where-Object {$_.UserPrincipalName -eq "$useremail"} | Select -ExpandProperty Id
-                $idarray = $lowid, $mediumid, $highid
-                Foreach ($i in $idarray)
-                {
-                    Invoke-AzureADIPDismissRiskyUser -UserIds $i
-                }
-                Write-Host "$username has been released from the ghost trap" -fore green
-                return 
-              }
-            N { exit }
-            default { Write-Host 'Only Y/N valid' -fore red }
-        }
-    }
 }
 
 function MSol 
