@@ -6,4 +6,4 @@
 
 Requirements
 ------------------
- Install-module Microsoft.Graph.Authentication,Microsoft.Graph.Identity.SignIns,Microsoft.Graph
+ Install-module Microsoft.Graph.Authentication,Microsoft.Graph.Identity.SignIns,Microsoft.Graph,AzureAD
