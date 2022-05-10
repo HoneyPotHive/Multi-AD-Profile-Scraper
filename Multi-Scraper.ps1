@@ -1,7 +1,7 @@
 
 
 # Daniel Bak and Andre P area code Scrapepr
-# Version 3.0.1
+# Version 1.5.2
 # Works only for US numbers for now pulling AD accounts 
 ##########################################################################
 ############# Multi Scraper ###############################
@@ -43,7 +43,7 @@ function Multipass
         # Low Alerts
         If ($low -contains $useremail) {
             Write-Host "$useremail is in Low Alert" -ForegroundColor green
-            switch (Read-Host 'Would you like to see if user is in Risky Users? (Y/N)')
+            switch (Read-Host 'Would you like to release user from Risky Users? (Y/N)')
             {
                 Y { 
                     $mediumid = Get-MgRiskyUser -Filter "RiskLevel eq 'low'" | Where-Object {$_.UserPrincipalName -eq "$useremail"} | Select -ExpandProperty Id
@@ -61,7 +61,7 @@ function Multipass
         #Medium Alerts
         If ($medium -contains $useremail) {
             Write-Host "$useremail is in Medium Alert" -ForegroundColor green
-            switch (Read-Host 'Would you like to see if user is in Risky Users? (Y/N)')
+            switch (Read-Host 'Would you like to release user from Risky Users? (Y/N)')
             {
                 Y { 
                     $mediumid = Get-MgRiskyUser -Filter "RiskLevel eq 'medium'" | Where-Object {$_.UserPrincipalName -eq "$useremail"} | Select -ExpandProperty Id
@@ -79,7 +79,7 @@ function Multipass
         #High Alerts
         If ($high -contains $useremail) {
             Write-Host "$useremail is in High Alert" -ForegroundColor green
-            switch (Read-Host 'Would you like to see if user is in Risky Users? (Y/N)')
+            switch (Read-Host 'Would you like to release user from Risky Users? (Y/N)')
             {
                 Y { 
                     $mediumid = Get-MgRiskyUser -Filter "RiskLevel eq 'high'" | Where-Object {$_.UserPrincipalName -eq "$useremail"} | Select -ExpandProperty Id
